@@ -4,32 +4,34 @@
 #include "list.h"
 #include "astar.h"
 
+#define LINE 5
+#define COLUMN 5
+
+
 int main() {
 
-
-
-    node grid[10][10];
+    node grid[LINE][COLUMN];
     int i;
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < LINE; i++) {
         int j;
-        for (j = 0; j < 10; j++) {
+        for (j = 0; j < COLUMN; j++) {
             grid[i][j] = init_node(i, j, 0);
         }
     }
 
     grid[2][2].weight=255;
-    grid[7][6].weight=255;
-    grid[2][3].weight=255;
+    grid[3][3].weight=255;
+    //grid[2][3].weight=255;
 
-    node start_node = grid[1][1];
+    node start_node = grid[0][0];
     start_node.g = 0;
     start_node.h = 0;
     start_node.f = start_node.g + start_node.h;
 
-    node end_node = grid[5][5];
+    node end_node = grid[4][4];
 
 
-    find_path(start_node, end_node, 10, 10, grid);
+    find_path(start_node, end_node, LINE, COLUMN, grid);
 
 
     // test();
