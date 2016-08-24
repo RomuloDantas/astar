@@ -25,7 +25,7 @@ int is_finish(node *n, node *end_point) {
 }
 
 int heuristic(node *n, node *finish) {
-    return 10*(abs(n->x - finish->x) + abs(n->y - finish->y));
+    return 10 * (abs(n->x - finish->x) + abs(n->y - finish->y));
 }
 
 int calc_g(node current, node neighbor) {
@@ -71,12 +71,12 @@ int find_path(node start_node, node end_point, int i, int j, node grid[i][j]) {
 
             node *aux = current;
             printf(">>>>(%d, %d) ", current->x, current->y);
-           if(current->parent != NULL){
-                do{
+            if (current->parent != NULL) {
+                do {
                     printf("(%d, %d) ", current->parent->x, current->parent->y);
                     current = current->parent;
-                }while(current->parent != NULL);
-           }
+                } while (current->parent != NULL);
+            }
 
 
             printf("\nfinish!");
@@ -89,13 +89,13 @@ int find_path(node start_node, node end_point, int i, int j, node grid[i][j]) {
         //Checando a vizinhança
         //checar em caso de borda
 
-        for (int x = current->x - 1;  x <= current->x + 1;
+        for (int x = current->x - 1; x <= current->x + 1;
              x++) {
-            if(x <= -1 || x >= i){
+            if (x <= -1 || x >= i) {
                 continue;
             }
             for (int y = current->y - 1; y <= current->y + 1; y++) {
-                if(y <= -1 || y >= i){
+                if (y <= -1 || y >= i) {
                     continue;
                 }
 

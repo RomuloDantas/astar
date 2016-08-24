@@ -3,6 +3,7 @@
 
 #include "list.h"
 #include "astar.h"
+#include "file_utils.h"
 
 #define LINE 5
 #define COLUMN 5
@@ -10,7 +11,25 @@
 
 int main() {
 
+
+    char buf[2*LINE];
+    FILE * f = read_map("/home/lds/semb/astar/map.txt");
+
     node grid[LINE][COLUMN];
+    for(int i = 0; i < LINE; i++){
+        fgets(buf, 2*LINE, f);
+        for(int j = 0; j < LINE*2; j+=2){
+
+            printf("%c", buf[j]);
+            grid[i][j]= init_node(i, j, buf[j]);
+            buf[j] = '0';
+        }
+        buf[9] = '0';
+    }
+
+    printf("\n");
+
+    /*node grid[LINE][COLUMN];
     int i;
     for (i = 0; i < LINE; i++) {
         int j;
@@ -18,6 +37,8 @@ int main() {
             grid[i][j] = init_node(i, j, 0);
         }
     }
+
+     */
 
     grid[2][2].weight=255;
     grid[3][3].weight=255;
