@@ -13,32 +13,26 @@ int main() {
 
 
     char buf[2*LINE];
-    FILE * f = read_map("/home/lds/semb/astar/map.txt");
+    size_t len = 0;
+    ssize_t read;
+    char * line = NULL;
+    FILE * fp = read_map("map.txt");
 
     node grid[LINE][COLUMN];
     for(int i = 0; i < LINE; i++){
-        fgets(buf, 2*LINE, f);
+        read = getline(&line, &len, fp);
         for(int j = 0; j < LINE*2; j+=2){
 
-            printf("%c", buf[j]);
-            grid[i][j]= init_node(i, j, buf[j]);
-            buf[j] = '0';
+            printf("%c ", line[j]);
+            grid[i][j/2]= init_node(i, j/2, line[j]-48);
         }
-        buf[9] = '0';
     }
+
+    fclose(fp);
+    if (line)
+        free(line);
 
     printf("\n");
-
-    /*node grid[LINE][COLUMN];
-    int i;
-    for (i = 0; i < LINE; i++) {
-        int j;
-        for (j = 0; j < COLUMN; j++) {
-            grid[i][j] = init_node(i, j, 0);
-        }
-    }
-
-     */
 
     grid[2][2].weight=255;
     grid[3][3].weight=255;
