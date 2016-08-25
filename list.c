@@ -36,8 +36,9 @@ void remove_node(node **list, node *n) {
         } else {
             node *current = *list;
             if (current == n) { //remove a list
+                node *aux = (*list)->next;
                 (*list)->next = NULL;
-                *list = current->next;
+                *list = aux;
             } else {
                 while (n != current->next) {
                     current = current->next;

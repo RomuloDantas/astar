@@ -5,8 +5,8 @@
 #include "astar.h"
 #include "file_utils.h"
 
-#define LINE 4
-#define COLUMN 4
+#define LINE 5
+#define COLUMN 5
 
 #define LINE_TEST_1 5
 #define COLUMN_TEST1 5
