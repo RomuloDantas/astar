@@ -59,13 +59,17 @@ void update_params(node *current, node *neighbor, node end_point) {
 
 int find_path(node start_node, node end_point, int i, int j, node grid[i][j]) {
 
+    start_node.g = 0;
+    start_node.h = 0;
+    start_node.f = start_node.g + start_node.h;
+
     //insere o start point na lista de open
     insert_node(&open_list, &start_node);
 
     while (open_list != NULL) {
-        print_list(open_list);
+//        print_list(open_list);
         node *current = lowest_f();
-        printf("current (%d, %d) \n", current->x, current->y);
+//        printf("current (%d, %d) \n", current->x, current->y);
         if (is_finish(current, &end_point)) {
 
 
@@ -79,7 +83,7 @@ int find_path(node start_node, node end_point, int i, int j, node grid[i][j]) {
             }
 
 
-            printf("\nfinish!");
+            printf("\n");
             return 0;
         }
 
@@ -123,7 +127,7 @@ int find_path(node start_node, node end_point, int i, int j, node grid[i][j]) {
 
                 update_params(current, neighbor, end_point);
 
-                printf("[%d][%d] - G=%d   H=%d  W=%d  F=%d\n", x, y, neighbor->g, neighbor->h, neighbor->weight, neighbor->f);
+                //printf("[%d][%d] - G=%d   H=%d  W=%d  F=%d\n", x, y, neighbor->g, neighbor->h, neighbor->weight, neighbor->f);
 
             }
         }

@@ -79,10 +79,6 @@ void map_pathfinder() {
 
 
     node start_node = grid[1][0];
-    start_node.g = 0;
-    start_node.h = 0;
-    start_node.f = start_node.g + start_node.h;
-
     node end_node = grid[4][4];
 
     find_path(start_node, end_node, LINE, COLUMN, grid);
@@ -94,7 +90,67 @@ void map_pathfinder() {
 
 
 void test1_pathfinder() {
+    FILE * f = read_map("/Users/sanf0rd/dev/astar/map2.txt");
+    node grid[LINE][COLUMN];
 
+    int c, line=0, column=0;
+    do
+    {
+        c = fgetc(f);
+        if( feof(f) )
+        {
+            break ;
+        }
+
+        if(c != LINE_BREAK){
+            if(c != SPACE){
+                grid[line][column] = init_node(line, column, (c - 48));
+                column++;
+            }
+        }else{
+            column=0;
+            line++;
+        }
+
+    }while(1);
+
+    //Test diagonal
+    node start_node = grid[0][0];
+    node end_node = grid[0][4];
+
+    find_path(start_node, end_node, LINE, COLUMN, grid);
+
+
+    //Test Horizontal
+    for (int i = 0; i < LINE; i++){
+        for (int j =0; j < COLUMN; j++){
+            grid[i][j].f = -1;
+            grid[i][j].g = -1;
+            grid[i][j].h = -1;
+            grid[i][j].parent = NULL;
+            grid[i][j].next = NULL;
+        }
+    }
+    start_node = grid[0][0];
+    end_node = grid[4][0];
+
+    find_path(start_node, end_node, LINE, COLUMN, grid);
+
+
+    //Test Vertical
+    for (int i = 0; i < LINE; i++){
+        for (int j =0; j < COLUMN; j++){
+            grid[i][j].f = -1;
+            grid[i][j].g = -1;
+            grid[i][j].h = -1;
+            grid[i][j].parent = NULL;
+            grid[i][j].next = NULL;
+        }
+    }
+    start_node = grid[0][0];
+    end_node = grid[4][4];
+
+    find_path(start_node, end_node, LINE, COLUMN, grid);
 }
 
 void test2_pathfinder() {
