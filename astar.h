@@ -3,7 +3,7 @@
 
 #include "list.h"
 
-int find_path(node start_node, node end_point, int i, int j, node grid[i][j]);
+int find_path(node *start_node, node end_point, int i, int j, node grid[i][j]);
 
 node *lowest_f();
 

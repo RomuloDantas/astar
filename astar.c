@@ -57,10 +57,10 @@ void update_params(node *current, node *neighbor, node end_point) {
 }
 
 
-int find_path(node start_node, node end_point, int i, int j, node grid[i][j]) {
+int find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
 
     //insere o start point na lista de open
-    insert_node(&open_list, &start_node);
+    insert_node(&open_list, start_node);
 
     while (open_list != NULL) {
         print_list(open_list);
@@ -84,6 +84,10 @@ int find_path(node start_node, node end_point, int i, int j, node grid[i][j]) {
         }
 
         remove_node(&open_list, current);
+        printf("===================\n");
+        printf("------------------\n");
+        print_list(open_list);
+        printf("===================\n");
         insert_node(&close_list, current);
 
         //Checando a vizinhança
@@ -123,11 +127,13 @@ int find_path(node start_node, node end_point, int i, int j, node grid[i][j]) {
 
                 update_params(current, neighbor, end_point);
 
-                printf("[%d][%d] - G=%d   H=%d  W=%d  F=%d\n", x, y, neighbor->g, neighbor->h, neighbor->weight, neighbor->f);
+                //printf("[%d][%d] - G=%d   H=%d  W=%d  F=%d\n", x, y, neighbor->g, neighbor->h, neighbor->weight, neighbor->f);
 
             }
         }
     }
+    printf("Sem caminho");
+    return 0;
 }
 
 

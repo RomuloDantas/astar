@@ -5,8 +5,8 @@
 #include "astar.h"
 #include "file_utils.h"
 
-#define LINE 5
-#define COLUMN 5
+#define LINE 4
+#define COLUMN 4
 
 #define LINE_TEST_1 5
 #define COLUMN_TEST1 5
@@ -78,12 +78,12 @@ void map_pathfinder() {
     }while(1);
 
 
-    node start_node = grid[1][0];
-    start_node.g = 0;
-    start_node.h = 0;
-    start_node.f = start_node.g + start_node.h;
+    node *start_node = &(grid[0][0]);
+    start_node->g = 0;
+    start_node->h = 0;
+    start_node->f = start_node->g + start_node->h;
 
-    node end_node = grid[4][4];
+    node end_node = grid[3][3];
 
     find_path(start_node, end_node, LINE, COLUMN, grid);
 

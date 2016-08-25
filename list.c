@@ -73,6 +73,7 @@ int contains_node(node **list, node *n) {
 void print_list(node *list) {
     if (list == NULL) {
         printf("Empty list\n");
+        return;
     }
 
     node *current = list;
