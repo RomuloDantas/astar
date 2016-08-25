@@ -8,11 +8,11 @@
 typedef struct node {
     struct node *parent;
     struct node *next;
+    int x, y;
     int g;
     int h;
     int f;
-    int x, y;
-    float weight;
+    int weight;
 } node;
 
 node init_node(int x, int y, float weight);

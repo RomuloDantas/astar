@@ -41,7 +41,7 @@ int calc_g(node current, node neighbor) {
 }
 
 void update_f(node *n) {
-    n->f = n->g + n->h;
+    n->f = n->g + n->h + n->weight;
 }
 
 void update_params(node *current, node *neighbor, node end_point) {
@@ -113,7 +113,7 @@ int find_path(node start_node, node end_point, int i, int j, node grid[i][j]) {
                 }
 
                 //Wall
-                if (neighbor->weight == 255) {
+                if (neighbor->weight == 9) {
                     continue;
                 }
 
@@ -123,7 +123,7 @@ int find_path(node start_node, node end_point, int i, int j, node grid[i][j]) {
 
                 update_params(current, neighbor, end_point);
 
-                printf("[%d][%d] - G=%d    H=%d   F=%d\n", x, y, neighbor->g, neighbor->h, neighbor->f);
+                printf("[%d][%d] - G=%d   H=%d  W=%d  F=%d\n", x, y, neighbor->g, neighbor->h, neighbor->weight, neighbor->f);
 
             }
         }
