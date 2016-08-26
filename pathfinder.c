@@ -28,6 +28,8 @@ void test_diagonal();
 
 void test_com_barreira();
 
+void print_help();
+
 int main(int argc, char *argv[]) {
 
     int arg = 0;
@@ -55,11 +57,17 @@ int main(int argc, char *argv[]) {
             test_com_barreira();
             break;
         default:
-            //print_help();
+            print_help();
             break;
     }
 
     exit(0);
+}
+
+void print_help() {
+
+    printf("Para usar o programa você precisa passar um dos argumentos: \n");
+    printf ("1 - Map \n2 - Teste vertical \n3 - Teste horizontal \n4 - Teste diagonal \n5 - Teste com barreira");
 }
 
 void map_pathfinder() {
