@@ -90,6 +90,65 @@ void update_params(node *current, node *neighbor, node end_point) {
 }
 
 /**
+ * Mostra o grid marcado com 'X' no caminho pecorrido.
+ * @param linhas - o  núemro de linhas do grid.
+ * @param colunas - o númeor de colunas do grid.
+ * @param grid - o grid pecorrido.
+ */
+void show_map_result(int linhas, int colunas, node grid[linhas][colunas]) {
+    for (int x = 0; x < linhas; x++) {
+        for (int y = 0; y < colunas; y++) {
+            if (grid[x][y].weight == -1) {
+                printf("%c   ", 'X');
+            } else {
+                if (grid[x][y].weight < 9) {
+                    printf("%d   ", grid[x][y].weight);
+                } else if (grid[x][y].weight < 99) {
+                    printf("%d  ", grid[x][y].weight);
+                } else {
+                    printf("%d ", grid[x][y].weight);
+                }
+            }
+        }
+        printf("\n");
+    }
+}
+
+/**
+ * Mostra o resultado do algoritmo.
+ * @param n - o ultimo nó alcançado.
+ * @param linhas - o número de linhas do grid.
+ * @param colunas - o númeor de colunas do grid.
+ * @param grid - o grid pecorrido.
+ */
+void show_result(node *n, int linhas, int colunas, node grid[linhas][colunas]) {
+    printf("Caminho pecorrido:\n(%d, %d) ", n->x, n->y);
+    grid[n->x][n->y].weight = -1;
+    if (n->parent != NULL) {
+        do {
+            printf("(%d, %d) ", n->parent->x, n->parent->y);
+            grid[n->parent->x][n->parent->y].weight = -1;
+            n = n->parent;
+        } while (n->parent != NULL);
+    }
+    printf("\n");
+
+    show_map_result(linhas, colunas, grid);
+}
+
+/**
+ * Verifica se o nó é uma parede.
+ * @param o nó para ser verificado
+ * @return 1 se o nó for uma barreira, 0 caso contrário.
+ */
+int isWall(node *n){
+    if (n->weight == 255) {
+        return 1;
+    }
+    return 0;
+}
+
+/**
  * busca um caminho do ponto de start até o ponto end na grid.
  * @param start_node - ponto de partida.
  * @param end_point - ponto de chegada.
@@ -97,7 +156,7 @@ void update_params(node *current, node *neighbor, node end_point) {
  * @param colunas - numero de colunas do grid.
  * @param grid - o grid para ser pecorrido.
  */
-void find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
+void find_path(node *start_node, node end_point, int linhas, int colunas, node grid[linhas][colunas]) {
 
     //insere o start point na lista de open
     insert_node(&open_list, start_node);
@@ -105,40 +164,9 @@ void find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) 
     while (open_list != NULL) {
         //print_list(open_list);
         node *current = lowest_f();
-//        printf("current (%d, %d) \n", current->x, current->y);
+        //printf("current (%d, %d) \n", current->x, current->y);
         if (is_finish(current, &end_point)) {
-            printf(">>>>(%d, %d) ", current->x, current->y);
-            grid[current->x][current->y].weight = -1;
-            if (current->parent != NULL) {
-                do {
-                    printf("(%d, %d) ", current->parent->x, current->parent->y);
-                    grid[current->parent->x][current->parent->y].weight = -1;
-                    current = current->parent;
-                } while (current->parent != NULL);
-            }
-
-            printf("\n");
-
-
-            for (int x = 0; x < i; x++) {
-                for (int y = 0; y < j; y++) {
-                    if(grid[x][y].weight == -1) {
-                        printf("%c   ", 'X');
-                    }else{
-                        if(grid[x][y].weight < 9){
-                            printf("%d   ", grid[x][y].weight);
-                        }else
-                        if(grid[x][y].weight < 99) {
-                            printf("%d  ", grid[x][y].weight);
-                        }else{
-                            printf("%d ", grid[x][y].weight);
-                        }
-                    }
-                }
-                printf("\n");
-            }
-
-            printf("\nFim!");
+            show_result(current, linhas, colunas, grid);
             return;
         }
 
@@ -150,11 +178,11 @@ void find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) 
 
         for (int x = current->x - 1; x <= current->x + 1;
              x++) {
-            if (x <= -1 || x >= i) {
+            if (x <= -1 || x >= linhas) {
                 continue;
             }
             for (int y = current->y - 1; y <= current->y + 1; y++) {
-                if (y <= -1 || y >= i) {
+                if (y <= -1 || y >= colunas) {
                     continue;
                 }
 
@@ -172,7 +200,7 @@ void find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) 
                 }
 
                 //Wall
-                if (neighbor->weight == 255) {
+                if (isWall(neighbor)) {
                     continue;
                 }
 
