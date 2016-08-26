@@ -215,7 +215,7 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
             }
         }
     }
-    printf("Sem caminho");
+    printf("Sem caminho\n");
     return;
 }
 
