@@ -41,7 +41,7 @@ int heuristic(node *n, node *finish);
  * @param neighbor - o nó vizinho para atualizar os parâmetros.
  * @param end_node - o nó final usado nos cálculos.
  */
-void update_params(node* current, node *neighbor, node end_node);
+void update_params(node *current, node *neighbor, node end_node);
 
 /**
  * Clean up the open list and the close list

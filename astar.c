@@ -141,7 +141,7 @@ void show_result(node *n, int linhas, int colunas, node grid[linhas][colunas]) {
  * @param o nó para ser verificado
  * @return 1 se o nó for uma barreira, 0 caso contrário.
  */
-int isWall(node *n){
+int isWall(node *n) {
     if (n->weight == 255) {
         return 1;
     }
@@ -218,7 +218,7 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
 /**
  * Clean up the open list and the close list
  */
-void clean_up(){
+void clean_up() {
     open_list = NULL;
     close_list = NULL;
 }

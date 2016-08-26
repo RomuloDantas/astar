@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "list.h"
+
 /**
  * Cria um novo nó na posição (x,y) e com o pesso
  * weight.
@@ -16,9 +17,9 @@ node init_node(int x, int y, int weight) {
     n.parent = NULL;
     n.x = x;
     n.y = y;
-    n.f=-1;
-    n.g=-1;
-    n.h=-1;
+    n.f = -1;
+    n.g = -1;
+    n.h = -1;
     n.weight = weight;
     return n;
 }
@@ -63,7 +64,7 @@ void remove_node(node **list, node *n) {
                     current = current->next;
                 }
                 current->next = current->next->next;
-                n->next=NULL;
+                n->next = NULL;
             }
 
 
