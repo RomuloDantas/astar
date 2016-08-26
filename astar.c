@@ -63,13 +63,12 @@ int find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
     insert_node(&open_list, start_node);
 
     while (open_list != NULL) {
-        print_list(open_list);
+        //print_list(open_list);
         node *current = lowest_f();
-        printf("current (%d, %d) \n", current->x, current->y);
+//        printf("current (%d, %d) \n", current->x, current->y);
         if (is_finish(current, &end_point)) {
 
 
-            node *aux = current;
             printf(">>>>(%d, %d) ", current->x, current->y);
             if (current->parent != NULL) {
                 do {
@@ -84,10 +83,6 @@ int find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
         }
 
         remove_node(&open_list, current);
-        printf("===================\n");
-        printf("------------------\n");
-        print_list(open_list);
-        printf("===================\n");
         insert_node(&close_list, current);
 
         //Checando a vizinhança
@@ -117,7 +112,7 @@ int find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
                 }
 
                 //Wall
-                if (neighbor->weight == 9) {
+                if (neighbor->weight == 255) {
                     continue;
                 }
 

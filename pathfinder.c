@@ -5,11 +5,11 @@
 #include "astar.h"
 #include "file_utils.h"
 
-#define LINE 5
-#define COLUMN 5
+#define LINE 55
+#define COLUMN  55
 
-#define LINE_TEST_1 5
-#define COLUMN_TEST1 5
+#define LINE_TEST_1 10
+#define COLUMN_TEST1 10
 
 #define LINE_TEST_2 5
 #define COLUMN_TEST_2 5
@@ -20,9 +20,13 @@
 
 void map_pathfinder();
 
-void test1_pathfinder();
+void test_vertical();
 
-void test2_pathfinder();
+void test_horizontal();
+
+void test_diagonal();
+
+void test_com_barreira();
 
 int main(int argc, char *argv[]) {
 
@@ -39,10 +43,16 @@ int main(int argc, char *argv[]) {
             map_pathfinder();
             break;
         case 2:
-            test1_pathfinder();
+            test_vertical();
             break;
         case 3:
-            test2_pathfinder();
+            test_horizontal();
+            break;
+        case 4:
+            test_diagonal();
+            break;
+        case 5:
+            test_com_barreira();
             break;
         default:
             //print_help();
@@ -53,77 +63,113 @@ int main(int argc, char *argv[]) {
 }
 
 void map_pathfinder() {
-    FILE * f = read_map("/home/lds/semb/astar/map.txt");
+
     node grid[LINE][COLUMN];
+    for(int i= 0 ; i < 55; i ++){
+        for(int j = 0; j < 55; j ++){
 
-    int c, line=0, column=0;
-    do
-    {
-        c = fgetc(f);
-        if( feof(f) )
-        {
-            break ;
+            grid[i][j] = init_node(i, j, 0);
+
         }
+    }
 
-        if(c != LINE_BREAK){
-            if(c != SPACE){
-                grid[line][column] = init_node(line, column, (c - 48));
-                column++;
-            }
-        }else{
-            column=0;
-            line++;
-        }
-
-    }while(1);
-
-
-    node *start_node = &(grid[0][0]);
+    node *start_node = &(grid[1][1]);
     start_node->g = 0;
     start_node->h = 0;
     start_node->f = start_node->g + start_node->h;
 
-    node end_node = grid[3][3];
+    node end_node = grid[54][54];
 
     find_path(start_node, end_node, LINE, COLUMN, grid);
 
-
-    // test();
-
 }
 
 
-void test1_pathfinder() {
+void test_vertical() {
+node grid[LINE_TEST_1][COLUMN_TEST1];
+    for(int i= 0 ; i < LINE_TEST_1; i ++){
+        for(int j = 0; j < COLUMN_TEST1; j ++){
 
-}
+            grid[i][j] = init_node(i, j, 0);
 
-void test2_pathfinder() {
-
-}
-
-
-
-
-
-
-void test() {
-    node *head_open = NULL;
-
-
-    node *n = (struct node *) malloc(sizeof(struct node));
-    n->g = 10;
-    node *n2 = (struct node *) malloc(sizeof(struct node));
-    n2->g = 20;
-    node *n3 = (struct node *) malloc(sizeof(struct node));
-    n3->g = 30;
-    insert_node(&head_open, n);
-    insert_node(&head_open, n2);
-    insert_node(&head_open, n3);
-
-    node *aux = head_open;
-    while (aux != NULL) {
-        printf("%d\n", aux->g);
-        aux = aux->next;
+        }
     }
+
+    node *start_node = &(grid[1][1]);
+    start_node->g = 0;
+    start_node->h = 0;
+    start_node->f = start_node->g + start_node->h;
+
+    node end_node = grid[LINE_TEST_1-1][1];
+
+    find_path(start_node, end_node, LINE_TEST_1, COLUMN_TEST1, grid);
 }
+
+void test_horizontal() {
+    node grid[LINE_TEST_1][COLUMN_TEST1];
+    for(int i= 0 ; i < LINE_TEST_1; i ++){
+        for(int j = 0; j < COLUMN_TEST1; j ++){
+
+            grid[i][j] = init_node(i, j, 0);
+
+        }
+    }
+
+    node *start_node = &(grid[1][1]);
+    start_node->g = 0;
+    start_node->h = 0;
+    start_node->f = start_node->g + start_node->h;
+
+    node end_node = grid[1][COLUMN_TEST1-1];
+
+    find_path(start_node, end_node, LINE_TEST_1, COLUMN_TEST1, grid);
+}
+
+void test_diagonal() {
+    node grid[LINE_TEST_1][COLUMN_TEST1];
+    for(int i= 0 ; i < LINE_TEST_1; i ++){
+        for(int j = 0; j < COLUMN_TEST1; j ++){
+
+            grid[i][j] = init_node(i, j, 0);
+
+        }
+    }
+
+    node *start_node = &(grid[1][1]);
+    start_node->g = 0;
+    start_node->h = 0;
+    start_node->f = start_node->g + start_node->h;
+
+    node end_node = grid[LINE_TEST_1-1][COLUMN_TEST1-1];
+
+    find_path(start_node, end_node, LINE_TEST_1, COLUMN_TEST1, grid);
+}
+
+void test_com_barreira(){
+     node grid[LINE_TEST_1][COLUMN_TEST1];
+    for(int i= 0 ; i < LINE_TEST_1; i ++){
+        for(int j = 0; j < COLUMN_TEST1; j ++){
+
+            if(i < LINE_TEST_1-1 && j == 5){
+                grid[i][j] = init_node(i, j, 255);
+                printf("%d ", 255);
+            }else {
+                grid[i][j] = init_node(i, j, 0);
+                printf("%d ", 0);
+            }
+
+        }
+        printf("\n");
+    }
+
+    node *start_node = &(grid[1][1]);
+    start_node->g = 0;
+    start_node->h = 0;
+    start_node->f = start_node->g + start_node->h;
+
+    node end_node = grid[1][COLUMN_TEST1-1];
+
+    find_path(start_node, end_node, LINE_TEST_1, COLUMN_TEST1, grid);
+}
+
 
