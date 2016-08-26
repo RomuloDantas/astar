@@ -67,15 +67,6 @@ int find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
         node *current = lowest_f();
 //        printf("current (%d, %d) \n", current->x, current->y);
         if (is_finish(current, &end_point)) {
-
-
-            node *c = close_list;
-            do {
-                grid[c->x][c->y].weight = -2;
-                printf("(%d, %d) - %d\n", grid[c->x][c->y].x, grid[c->x][c->y].y, grid[c->x][c->y].weight);
-                c = c->next;
-            } while (c != NULL);
-
             printf(">>>>(%d, %d) ", current->x, current->y);
             grid[current->x][current->y].weight = -1;
             if (current->parent != NULL) {
@@ -91,19 +82,17 @@ int find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
 
             for (int x = 0; x < i; x++) {
                 for (int y = 0; y < j; y++) {
-                    if(grid[x][y].weight == -1){
-                        printf(" %c ", 'X');
-                    }else
-                    if(grid[x][y].weight == -2){
-                        printf(" %c ", 'O');
+                    if(grid[x][y].weight == -1) {
+                        printf("%c   ", 'X');
                     }else{
+                        if(grid[x][y].weight < 9){
+                            printf("%d   ", grid[x][y].weight);
+                        }else
                         if(grid[x][y].weight < 99) {
-                            printf(" %d ", grid[x][y].weight);
+                            printf("%d  ", grid[x][y].weight);
                         }else{
-
-                            printf("%d", grid[x][y].weight);
+                            printf("%d ", grid[x][y].weight);
                         }
-
                     }
                 }
                 printf("\n");

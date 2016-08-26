@@ -76,24 +76,44 @@ void map_pathfinder() {
     int w = 0;
     for (int i = 0; i < 55; i++) {
         for (int j = 0; j < 55; j++) {
-
-            /*
             if (j <= 11) {
-                w = 50;
+                if(i < 11){
+                    w=80;
+                }else{
+                    w=10;
+                }
             } else if (j > 11 && j <= 22) {
-                w = 30;
+                if(i > 25 && i< 30 ){
+                    w=70;
+                }else{
+                    w=255;
+                }
             } else if (j > 22 && j <= 33) {
-                w = 70;
+                if(i < 40){
+                    w=40;
+                }else{
+                    w=255;
+                }
             } else if (j > 33 && j <= 44) {
-                w = 20;
-            } else if (j > 33 && j <= 44) {
-                w = 80;
+                if(i < 33){
+                    w=90;
+                }else{
+                    w=255;
+                }
+            } else if (j > 44 && j <= 54) {
+                if(i < 22){
+                    w=50;
+                }else{
+                    w=10;
+                }
             }
-             */
+
 
             grid[i][j] = init_node(i, j, w);
 
+
         }
+    }
         node *start_node = &(grid[1][1]);
         start_node->g = 0;
         start_node->h = 0;
@@ -103,7 +123,7 @@ void map_pathfinder() {
 
         find_path(start_node, end_node, LINE, COLUMN, grid);
 
-    }
+
 }
 
     void test(int lines, int columns, int xi, int yi, int xf, int yf) {
