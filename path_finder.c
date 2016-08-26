@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "list.h"
 #include "astar.h"
@@ -10,6 +11,9 @@
 
 #define LINE_TEST 10
 #define COLUMN_TEST 10
+
+#define LINE_BREAK 10
+#define SPACE 32
 
 void map_pathfinder();
 
@@ -26,6 +30,8 @@ void test_sem_caminho();
 void print_help();
 
 void all_tests();
+
+void map_pathfinder_file();
 
 int main(int argc, char *argv[]) {
 
@@ -59,12 +65,87 @@ int main(int argc, char *argv[]) {
         case 6:
             test_sem_caminho();
             break;
+        case 7:
+            map_pathfinder_file();
+            break;
         default:
             print_help();
             break;
     }
 
     exit(0);
+}
+
+
+/**
+ * Realiza o teste com um mapa com 3025 elementos e com
+ * pesos inicializados a partir de um arquivo.
+ */
+void map_pathfinder_file() {
+    FILE *f = fopen("/home/lds/semb/astar/map.txt", "r");
+    node grid[LINE][COLUMN];
+    int c, line = 0, column = 0;
+    int currentWeight = 0;
+    int currWeightAux[3] = {0, 0, 0};
+    int countWeightAux = 0;
+    int i = 0;
+    int j = 0;
+
+    do {
+        c = fgetc(f);
+        if (feof(f)) {
+            break;
+
+        }
+
+        if (c != LINE_BREAK) {
+            if (c != SPACE) {
+                //grid[line][column] = init_node(line, column, (c - 48));
+                currWeightAux[countWeightAux] = c - 48;
+                column++;
+                countWeightAux++;
+            }else{
+                currentWeight = 100 * currWeightAux[0] + 10 * currWeightAux[1] + currWeightAux[2];
+                if (countWeightAux < 3 && countWeightAux > 0){
+                    currentWeight = currentWeight / (int)pow(10, (3 - countWeightAux));
+                }
+                if (countWeightAux != 0) {
+                    grid[i][j] = init_node(i, j, currentWeight);
+                    j++;
+                    countWeightAux = 0;
+                    currWeightAux[0] = 0;
+                    currWeightAux[1] = 0;
+                    currWeightAux[2] = 0;
+                }
+            }
+        } else {
+            column = 0;
+            line++;
+            currentWeight = 100 * currWeightAux[0] + 10 * currWeightAux[1] + currWeightAux[2];
+            if (countWeightAux < 3 && countWeightAux > 0){
+                currentWeight = currentWeight / (int)pow(10, (3 - countWeightAux));
+            }
+            if (countWeightAux != 0) {
+                grid[i][j] = init_node(i, j, currentWeight);
+                i++;
+                j=0;
+                countWeightAux = 0;
+                currWeightAux[0] = 0;
+                currWeightAux[1] = 0;
+                currWeightAux[2] = 0;
+            }
+        }
+
+    } while (1);
+
+    node *start_node = &(grid[0][0]);
+    start_node->g = 0;
+    start_node->h = 0;
+    start_node->f = start_node->g + start_node->h;
+
+    node end_node = grid[LINE - 1][COLUMN - 1];
+
+    find_path(start_node, end_node, LINE, COLUMN, grid);
 }
 
 
