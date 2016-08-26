@@ -43,4 +43,9 @@ int heuristic(node *n, node *finish);
  */
 void update_params(node* current, node *neighbor, node end_node);
 
+/**
+ * Clean up the open list and the close list
+ */
+void clean_up();
+
 #endif //ASTAR_ASTAR_H

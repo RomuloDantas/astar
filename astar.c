@@ -1,4 +1,4 @@
-#include<stdlib.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "list.h"
 
@@ -158,7 +158,7 @@ int isWall(node *n){
  */
 void find_path(node *start_node, node end_point, int linhas, int colunas, node grid[linhas][colunas]) {
 
-    //insere o start point na lista de open
+
     insert_node(&open_list, start_node);
 
     while (open_list != NULL) {
@@ -172,9 +172,6 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
 
         remove_node(&open_list, current);
         insert_node(&close_list, current);
-
-        //Checando a vizinhança
-        //checar em caso de borda
 
         for (int x = current->x - 1; x <= current->x + 1;
              x++) {
@@ -190,7 +187,6 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
                 if (x == current->x && y == current->y) {
                     continue;
                 }
-
 
                 node *neighbor = &(grid[x][y]);
 
@@ -217,6 +213,14 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
     }
     printf("Sem caminho\n");
     return;
+}
+
+/**
+ * Clean up the open list and the close list
+ */
+void clean_up(){
+    open_list = NULL;
+    close_list = NULL;
 }
 
 
