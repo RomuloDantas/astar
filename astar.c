@@ -5,6 +5,10 @@
 node *open_list = NULL;
 node *close_list = NULL;
 
+/**
+ * Recupera o nó com menor f na lista aberta (open list).
+ * @return o nó com menor f.
+ */
 node *lowest_f() {
     node *current = open_list;
     node *lowest_f = current;
@@ -17,6 +21,12 @@ node *lowest_f() {
     return lowest_f;
 }
 
+/**
+ * Verificar se o nó alcançado é o objetivo.
+ * @param n - o nó alcançado.
+ * @param end_point - o objetivo.
+ * @return 1 caso o nó seja o objetivo, 0 caso contrário.
+ */
 int is_finish(node *n, node *end_point) {
     if (n->x == end_point->x && n->y == end_point->y) {
         return 1;
@@ -24,10 +34,22 @@ int is_finish(node *n, node *end_point) {
     return 0;
 }
 
+/**
+ * Calcula o heurística
+ * @param n - o nó para o cálculo.
+ * @param finish - o nó final para o cálculo da heurística.
+ * @return o resultado co calculo.
+ */
 int heuristic(node *n, node *finish) {
     return 10 * (abs(n->x - finish->x) + abs(n->y - finish->y));
 }
 
+/**
+ * Calcula o valor de G entre o ponto atual e o seu vizinho.
+ * @param current - o nó atual.
+ * @param neighbor - o vizinho.
+ * @return o valor de G entre current e neighbor.
+ */
 int calc_g(node current, node neighbor) {
 
     int dist = 0;
@@ -40,10 +62,21 @@ int calc_g(node current, node neighbor) {
 
 }
 
+/**
+ * Atualzia o valor de F para o no.
+ * @param n - o nó para atualziar o valor
+ * de F.
+ */
 void update_f(node *n) {
     n->f = n->g + n->h + n->weight;
 }
 
+/**
+ * Atualiza os parâmetros (g,f,h, parent) do nó vizinho ao nó atual.
+ * @param current - o nó atual.
+ * @param neighbor - o nó vizinho para atualizar os parâmetros.
+ * @param end_node - o nó final usado nos cálculos.
+ */
 void update_params(node *current, node *neighbor, node end_point) {
     int new_g = calc_g(*current, *neighbor);
     if (new_g < neighbor->g || neighbor->g == -1) {
@@ -56,8 +89,15 @@ void update_params(node *current, node *neighbor, node end_point) {
     update_f(neighbor);
 }
 
-
-int find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
+/**
+ * busca um caminho do ponto de start até o ponto end na grid.
+ * @param start_node - ponto de partida.
+ * @param end_point - ponto de chegada.
+ * @param linhas - número de linhas do grid.
+ * @param colunas - numero de colunas do grid.
+ * @param grid - o grid para ser pecorrido.
+ */
+void find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
 
     //insere o start point na lista de open
     insert_node(&open_list, start_node);
@@ -98,8 +138,8 @@ int find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
                 printf("\n");
             }
 
-            printf("\nfinish!");
-            return 0;
+            printf("\nFim!");
+            return;
         }
 
         remove_node(&open_list, current);
@@ -148,7 +188,7 @@ int find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
         }
     }
     printf("Sem caminho");
-    return 0;
+    return;
 }
 
 
