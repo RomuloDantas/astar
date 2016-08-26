@@ -69,14 +69,45 @@ int find_path(node *start_node, node end_point, int i, int j, node grid[i][j]) {
         if (is_finish(current, &end_point)) {
 
 
+            node *c = close_list;
+            do {
+                grid[c->x][c->y].weight = -2;
+                printf("(%d, %d) - %d\n", grid[c->x][c->y].x, grid[c->x][c->y].y, grid[c->x][c->y].weight);
+                c = c->next;
+            } while (c != NULL);
+
             printf(">>>>(%d, %d) ", current->x, current->y);
+            grid[current->x][current->y].weight = -1;
             if (current->parent != NULL) {
                 do {
                     printf("(%d, %d) ", current->parent->x, current->parent->y);
+                    grid[current->parent->x][current->parent->y].weight = -1;
                     current = current->parent;
                 } while (current->parent != NULL);
             }
 
+            printf("\n");
+
+
+            for (int x = 0; x < i; x++) {
+                for (int y = 0; y < j; y++) {
+                    if(grid[x][y].weight == -1){
+                        printf(" %c ", 'X');
+                    }else
+                    if(grid[x][y].weight == -2){
+                        printf(" %c ", 'O');
+                    }else{
+                        if(grid[x][y].weight < 99) {
+                            printf(" %d ", grid[x][y].weight);
+                        }else{
+
+                            printf("%d", grid[x][y].weight);
+                        }
+
+                    }
+                }
+                printf("\n");
+            }
 
             printf("\nfinish!");
             return 0;
