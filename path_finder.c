@@ -78,12 +78,21 @@ int main(int argc, char *argv[]) {
 
 
 /**
- * Realiza o teste com um mapa com 3025 elementos e com
- * pesos inicializados a partir de um arquivo.
+ * Mostra as informações de help no terminal.
  */
-void map_pathfinder_file() {
-    FILE *f = fopen("/home/lds/semb/astar/map.txt", "r");
-    node grid[LINE][COLUMN];
+void print_help() {
+
+    printf("Para usar o programa você precisa passar um dos argumentos: \n");
+    printf("0 - Realiza todos os testes \n1 - Map \n2 - Teste vertical \n3 - Teste horizontal \n4 - Teste diagonal \n5 - Teste com barreira\n6 - Teste sem caminho \n7 - Map from file \n");
+}
+
+/**
+ * Lê um grid de uma arquivo.
+ * @param f - o arquivo para ler o grid.
+ * @param grid - o grid onde as informações
+ *        serão colocadas.
+ */
+void read_grid(FILE *f, node grid[LINE][COLUMN]) {
     int c, line = 0, column = 0;
     int currentWeight = 0;
     int currWeightAux[3] = {0, 0, 0};
@@ -104,10 +113,10 @@ void map_pathfinder_file() {
                 currWeightAux[countWeightAux] = c - 48;
                 column++;
                 countWeightAux++;
-            }else{
+            } else {
                 currentWeight = 100 * currWeightAux[0] + 10 * currWeightAux[1] + currWeightAux[2];
-                if (countWeightAux < 3 && countWeightAux > 0){
-                    currentWeight = currentWeight / (int)pow(10, (3 - countWeightAux));
+                if (countWeightAux < 3 && countWeightAux > 0) {
+                    currentWeight = currentWeight / (int) pow(10, (3 - countWeightAux));
                 }
                 if (countWeightAux != 0) {
                     grid[i][j] = init_node(i, j, currentWeight);
@@ -122,13 +131,13 @@ void map_pathfinder_file() {
             column = 0;
             line++;
             currentWeight = 100 * currWeightAux[0] + 10 * currWeightAux[1] + currWeightAux[2];
-            if (countWeightAux < 3 && countWeightAux > 0){
-                currentWeight = currentWeight / (int)pow(10, (3 - countWeightAux));
+            if (countWeightAux < 3 && countWeightAux > 0) {
+                currentWeight = currentWeight / (int) pow(10, (3 - countWeightAux));
             }
             if (countWeightAux != 0) {
                 grid[i][j] = init_node(i, j, currentWeight);
                 i++;
-                j=0;
+                j = 0;
                 countWeightAux = 0;
                 currWeightAux[0] = 0;
                 currWeightAux[1] = 0;
@@ -138,6 +147,18 @@ void map_pathfinder_file() {
 
     } while (1);
 
+}
+
+
+/**
+ * Realiza o teste com um mapa com 3025 elementos e com
+ * pesos inicializados a partir de um arquivo.
+ */
+void map_pathfinder_file() {
+    FILE *f = fopen("/home/lds/semb/astar/map.txt", "r");
+    node grid[LINE][COLUMN];
+    read_grid(f, grid);
+
     node *start_node = &(grid[0][0]);
     start_node->g = 0;
     start_node->h = 0;
@@ -146,16 +167,6 @@ void map_pathfinder_file() {
     node end_node = grid[LINE - 1][COLUMN - 1];
 
     find_path(start_node, end_node, LINE, COLUMN, grid);
-}
-
-
-/**
- * Mostra as informações de help no terminal.
- */
-void print_help() {
-
-    printf("Para usar o programa você precisa passar um dos argumentos: \n");
-    printf("0 - Realiza todos os testes \n1 - Map \n2 - Teste vertical \n3 - Teste horizontal \n4 - Teste diagonal \n5 - Teste com barreira\n");
 }
 
 
