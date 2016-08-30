@@ -109,7 +109,6 @@ void read_grid(FILE *f, node grid[LINE][COLUMN]) {
 
         if (c != LINE_BREAK) {
             if (c != SPACE) {
-                //grid[line][column] = init_node(line, column, (c - 48));
                 currWeightAux[countWeightAux] = c - 48;
                 column++;
                 countWeightAux++;
@@ -343,25 +342,23 @@ void test_sem_caminho() {
     find_path(start_node, end_node, LINE_TEST, COLUMN_TEST, grid);
 }
 
+/**
+ * Realiza todos os testes.
+ */
 void all_tests() {
-    printf("\n");
-    printf("##########################################\n");
+    printf("\n##########################################\n");
     test_vertical();
     clean_up();
-    printf("\n");
-    printf("##########################################\n");
+    printf("\n##########################################\n");
     test_horizontal();
     clean_up();
-    printf("\n");
-    printf("##########################################\n");
+    printf("\n##########################################\n");
     test_diagonal();
     clean_up();
-    printf("\n");
-    printf("##########################################\n");
+    printf("\n##########################################\n");
     test_com_barreira();
     clean_up();
-    printf("\n");
-    printf("##########################################\n");
+    printf("\n##########################################\n");
     test_sem_caminho();
 }
 

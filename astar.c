@@ -22,9 +22,9 @@ node *lowest_f() {
 }
 
 /**
- * Verificar se o nó alcançado é o objetivo.
+ * Verifica se o nó alcançado é o nó objetivo.
  * @param n - o nó alcançado.
- * @param end_point - o objetivo.
+ * @param end_point - o nó objetivo.
  * @return 1 caso o nó seja o objetivo, 0 caso contrário.
  */
 int is_finish(node *n, node *end_point) {
@@ -63,7 +63,7 @@ int calc_g(node current, node neighbor) {
 }
 
 /**
- * Atualzia o valor de F para o no.
+ * Atualiza o valor de F para o nó.
  * @param n - o nó para atualziar o valor
  * de F.
  */
@@ -126,7 +126,6 @@ void show_result(node *n, int linhas, int colunas, node grid[linhas][colunas]) {
     grid[n->x][n->y].weight = -1;
     if (n->parent != NULL) {
         do {
-            printf("(%d, %d) ", n->parent->x, n->parent->y);
             grid[n->parent->x][n->parent->y].weight = -1;
             n = n->parent;
         } while (n->parent != NULL);
@@ -141,7 +140,7 @@ void show_result(node *n, int linhas, int colunas, node grid[linhas][colunas]) {
  * @param o nó para ser verificado
  * @return 1 se o nó for uma barreira, 0 caso contrário.
  */
-int isWall(node *n) {
+int is_wall(node *n) {
     if (n->weight == 255) {
         return 1;
     }
@@ -149,7 +148,7 @@ int isWall(node *n) {
 }
 
 /**
- * busca um caminho do ponto de start até o ponto end na grid.
+ * Busca um caminho do ponto de start até o ponto end no grid.
  * @param start_node - ponto de partida.
  * @param end_point - ponto de chegada.
  * @param linhas - número de linhas do grid.
@@ -162,10 +161,10 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
     insert_node(&open_list, start_node);
 
     while (open_list != NULL) {
-        //print_list(open_list);
         node *current = lowest_f();
-        //printf("current (%d, %d) \n", current->x, current->y);
         if (is_finish(current, &end_point)) {
+            printf("Ponto de partida: (%d, %d)\n", start_node->x, start_node->y);
+            printf("Ponto de chegada: (%d, %d)\n", end_point.x, end_point.y);
             show_result(current, linhas, colunas, grid);
             return;
         }
@@ -183,20 +182,19 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
                     continue;
                 }
 
-                //avoid reinsert the current node at open list
+                //Evita que o nó atual seja reinserido na lista.
                 if (x == current->x && y == current->y) {
                     continue;
                 }
 
                 node *neighbor = &(grid[x][y]);
 
-                //Vizinho ja analisado.
                 if (contains_node(&close_list, neighbor)) {
+                //Vizinho já analisado.
                     continue;
                 }
 
-                //Wall
-                if (isWall(neighbor)) {
+                if (is_wall(neighbor)) {
                     continue;
                 }
 
@@ -205,18 +203,16 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
                 }
 
                 update_params(current, neighbor, end_point);
-
-                //printf("[%d][%d] - G=%d   H=%d  W=%d  F=%d\n", x, y, neighbor->g, neighbor->h, neighbor->weight, neighbor->f);
-
             }
         }
     }
-    printf("Sem caminho\n");
+    printf("Sem caminho!\n");
+    show_map_result(linhas, colunas, grid);
     return;
 }
 
 /**
- * Clean up the open list and the close list
+ * Limpa as listas 
  */
 void clean_up() {
     open_list = NULL;

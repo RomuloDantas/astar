@@ -43,7 +43,7 @@ void insert_node(node **list, node *n) {
 }
 
 /**
- * Remove um n ó da lista.
+ * Remove um nó da lista.
  * @param list - lista de onde o nó será removido.
  * @param n - o nó que será removido.
  */
@@ -51,11 +51,11 @@ void remove_node(node **list, node *n) {
     if (*list != NULL) {
         //lista vazia
         if ((*list)->next == NULL) {
-            //lista 1 elemento
+            //lista com 1 elemento
             *list = NULL;
         } else {
             node *current = *list;
-            if (current == n) { //remove a list
+            if (current == n) { 
                 node *aux = (*list)->next;
                 (*list)->next = NULL;
                 *list = aux;
