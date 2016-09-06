@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <usart.h>
+
 #include "list.h"
 
 /**
@@ -11,17 +12,16 @@
  * @param weight  - o peso do nó.
  * @return  - o nó criado.
  */
-node init_node(int x, int y, int weight) {
-    node n;
-    n.next = NULL;
-    n.parent = NULL;
-    n.x = x;
-    n.y = y;
-    n.f = -1;
-    n.g = -1;
-    n.h = -1;
-    n.weight = weight;
-    return n;
+void init_node(node *n) {   
+    n->next = NULL;
+    n->parent = NULL;    
+    n->f = -1;
+    n->g = -1;
+    n->h = -1;     
+}
+
+void get_cell(int x, int y){
+    
 }
 
 /**
@@ -102,13 +102,13 @@ int contains_node(node **list, node *n) {
  */
 void print_list(node *list) {
     if (list == NULL) {
-        printf("Empty list\n");
+        putsUSART("Empty list\r");
         return;
     }
 
     node *current = list;
     do {
-        printf("(%d, %d) - ", current->x, current->y);
+       // printf("(%d, %d) - ", current->x, current->y);
         current = current->next;
     } while (current != NULL);
 

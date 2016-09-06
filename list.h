@@ -1,18 +1,24 @@
 #ifndef ASTAR_LIST_H
 #define ASTAR_LIST_H
 
+#include <stdio.h>
+
 /**
  * Estrutura que reprensenta um nó.
  */
 typedef struct node {
     struct node *parent;
-    struct node *next;
-    int x, y;
+    struct node *next;  
     int g;
     int h;
-    int f;
-    int weight;
+    int f;    
+    struct position *pos;
 } node;
+
+typedef struct position {
+    int x, y, weight;
+} position;
+
 
 /**
  * Cria um novo nó na posição (x,y) e com o pesso
@@ -22,7 +28,7 @@ typedef struct node {
  * @param weight  - o peso do nó.
  * @return  - o nó criado.
  */
-node init_node(int x, int y, int weight);
+void init_node(node *n);
 
 /**
  * Insere um nó na lista.
@@ -36,7 +42,7 @@ void insert_node(node **list, node *n);
  * @param list - lista de onde o nó será removido.
  * @param n - o nó que será removido.
  */
-void remove_node(node **list, node *n);
+void remove_node(struct node **list, struct node *n);
 
 /**
  * Verifica se dado nó esta contido na lista.
@@ -44,7 +50,7 @@ void remove_node(node **list, node *n);
  * @param n  - o nó para a consulta.
  * @return  1 se a lista contém o nó, caso contrário, 0.
  */
-int contains_node(node **list, node *n);
+int contains_node(struct node **list, struct node *n);
 
 /**
  * Imprime uma lista.

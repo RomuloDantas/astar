@@ -1,7 +1,14 @@
 #ifndef ASTAR_ASTAR_H
 #define ASTAR_ASTAR_H
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <plib/usart.h>
+
 #include "list.h"
+
+#define LINHAS 11
+#define COLUNAS 11
 
 /**
  * busca um caminho do ponto de start até o ponto end na grid.
@@ -11,7 +18,7 @@
  * @param colunas - numero de colunas do grid.
  * @param grid - o grid para ser pecorrido.
  */
-void find_path(node *start_node, node end_point, int linhas, int colunas, node grid[linhas][colunas]);
+void find_path(node *start_node, node end_point, node grid[LINHAS][COLUNAS]);
 
 /**
  * Recupera o nó com menor f na lista aberta (open list).
@@ -25,7 +32,7 @@ node *lowest_f();
  * @param end_point - o objetivo.
  * @return 1 caso o nó seja o objetivo, 0 caso contrário.
  */
-int is_finish(node *n, node *end_point);
+bit is_finish(node *n, node *end_point);
 
 /**
  * Calcula o heurística

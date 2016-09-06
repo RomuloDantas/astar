@@ -1,9 +1,7 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include "list.h"
+#include "astar.h"
 
-node *open_list = NULL;
-node *close_list = NULL;
+struct node *open_list = NULL;
+struct node *close_list = NULL;
 
 /**
  * Recupera o nó com menor f na lista aberta (open list).
@@ -27,8 +25,8 @@ node *lowest_f() {
  * @param end_point - o nó objetivo.
  * @return 1 caso o nó seja o objetivo, 0 caso contrário.
  */
-int is_finish(node *n, node *end_point) {
-    if (n->x == end_point->x && n->y == end_point->y) {
+bit is_finish(node *n, node *end_point) {
+    if (n->pos->x == end_point->pos->x && n->pos->y == end_point->pos->y) {
         return 1;
     }
     return 0;
@@ -41,7 +39,7 @@ int is_finish(node *n, node *end_point) {
  * @return o resultado co calculo.
  */
 int heuristic(node *n, node *finish) {
-    return 10 * (abs(n->x - finish->x) + abs(n->y - finish->y));
+    return 10 * (abs(n->pos->x - finish->pos->x) + abs(n->pos->y - finish->pos->y));
 }
 
 /**
@@ -53,7 +51,7 @@ int heuristic(node *n, node *finish) {
 int calc_g(node current, node neighbor) {
 
     int dist = 0;
-    if (current.x == neighbor.x || current.y == neighbor.y) {
+    if (current.pos->x == neighbor.pos->x || current.pos->y == neighbor.pos->y) {
         dist = 10;
     } else {
         dist = 14;
@@ -68,7 +66,7 @@ int calc_g(node current, node neighbor) {
  * de F.
  */
 void update_f(node *n) {
-    n->f = n->g + n->h + n->weight;
+    n->f = n->g + n->h + n->pos->weight;
 }
 
 /**
@@ -95,22 +93,28 @@ void update_params(node *current, node *neighbor, node end_point) {
  * @param colunas - o númeor de colunas do grid.
  * @param grid - o grid pecorrido.
  */
-void show_map_result(int linhas, int colunas, node grid[linhas][colunas]) {
-    for (int x = 0; x < linhas; x++) {
-        for (int y = 0; y < colunas; y++) {
-            if (grid[x][y].weight == -1) {
-                printf("%c   ", 'X');
-            } else {
-                if (grid[x][y].weight < 9) {
-                    printf("%d   ", grid[x][y].weight);
-                } else if (grid[x][y].weight < 99) {
-                    printf("%d  ", grid[x][y].weight);
+void show_map_result(node grid[LINHAS][COLUNAS]) {
+    putsUSART("show_map_result\r");
+    for (int a = 0; a < LINHAS; a++) {      
+        for (int b = 0; b < COLUNAS; b++) {  
+            int w = grid[a][b].pos->weight;
+                                           
+            if (grid[a][b].f == -2) {
+                putsUSART("X     ");
+            } else {               
+                char buf[5];                      
+                utoa(buf, w, 10);              
+                putsUSART(buf);  
+                if(w < 9){
+                     putsUSART("     ");                            
+                } else if (w < 99) {
+                    putsUSART("   ");  
                 } else {
-                    printf("%d ", grid[x][y].weight);
+                    putsUSART("  ");  
                 }
             }
         }
-        printf("\n");
+        putcUSART('\r');
     }
 }
 
@@ -121,18 +125,31 @@ void show_map_result(int linhas, int colunas, node grid[linhas][colunas]) {
  * @param colunas - o númeor de colunas do grid.
  * @param grid - o grid pecorrido.
  */
-void show_result(node *n, int linhas, int colunas, node grid[linhas][colunas]) {
-    printf("Caminho pecorrido:\n(%d, %d) ", n->x, n->y);
-    grid[n->x][n->y].weight = -1;
+void show_result(node *n, node grid[LINHAS][COLUNAS]) {
+    putsUSART("Caminho pecorrido: ");
+ 
+    
+    grid[n->pos->x][n->pos->y].f = -2;
     if (n->parent != NULL) {
         do {
-            grid[n->parent->x][n->parent->y].weight = -1;
+            putsUSART("( ");
+            char bufx[2];
+            itoa(bufx, n->pos->x, 10);
+            putsUSART(bufx);
+            putsUSART(", ");
+
+            char bufy[2];
+            itoa(bufy, n->pos->y, 10);
+
+            putsUSART(bufy);
+            putsUSART(")\r");
+            grid[n->parent->pos->x][n->parent->pos->y].f = -2;
             n = n->parent;
         } while (n->parent != NULL);
     }
-    printf("\n");
+    putcUSART('\r');
 
-    show_map_result(linhas, colunas, grid);
+    show_map_result(grid);
 }
 
 /**
@@ -140,8 +157,8 @@ void show_result(node *n, int linhas, int colunas, node grid[linhas][colunas]) {
  * @param o nó para ser verificado
  * @return 1 se o nó for uma barreira, 0 caso contrário.
  */
-int is_wall(node *n) {
-    if (n->weight == 255) {
+bit is_wall(node *n) {
+    if (n->pos->weight == 255) {
         return 1;
     }
     return 0;
@@ -155,7 +172,7 @@ int is_wall(node *n) {
  * @param colunas - numero de colunas do grid.
  * @param grid - o grid para ser pecorrido.
  */
-void find_path(node *start_node, node end_point, int linhas, int colunas, node grid[linhas][colunas]) {
+void find_path(node *start_node, node end_point, node grid[LINHAS][COLUNAS]) {
 
 
     insert_node(&open_list, start_node);
@@ -163,27 +180,27 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
     while (open_list != NULL) {
         node *current = lowest_f();
         if (is_finish(current, &end_point)) {
-            printf("Ponto de partida: (%d, %d)\n", start_node->x, start_node->y);
-            printf("Ponto de chegada: (%d, %d)\n", end_point.x, end_point.y);
-            show_result(current, linhas, colunas, grid);
+           // printf("Ponto de partida: (%d, %d)\n", start_node->x, start_node->y);
+          //  printf("Ponto de chegada: (%d, %d)\n", end_point.x, end_point.y);
+            show_result(current, grid);
             return;
         }
 
         remove_node(&open_list, current);
         insert_node(&close_list, current);
 
-        for (int x = current->x - 1; x <= current->x + 1;
+        for (int x = current->pos->x - 1; x <= current->pos->x + 1;
              x++) {
-            if (x <= -1 || x >= linhas) {
+            if (x <= -1 || x >= LINHAS) {
                 continue;
             }
-            for (int y = current->y - 1; y <= current->y + 1; y++) {
-                if (y <= -1 || y >= colunas) {
+            for (int y = current->pos->y - 1; y <= current->pos->y + 1; y++) {
+                if (y <= -1 || y >= COLUNAS) {
                     continue;
                 }
 
                 //Evita que o nó atual seja reinserido na lista.
-                if (x == current->x && y == current->y) {
+                if (x == current->pos->x && y == current->pos->y) {
                     continue;
                 }
 
@@ -206,9 +223,8 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
             }
         }
     }
-    printf("Sem caminho!\n");
-    show_map_result(linhas, colunas, grid);
-    return;
+    putsUSART("Sem caminho!\r");
+    show_map_result(grid);    
 }
 
 /**
@@ -218,6 +234,3 @@ void clean_up() {
     open_list = NULL;
     close_list = NULL;
 }
-
-
-
