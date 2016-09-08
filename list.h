@@ -11,13 +11,13 @@ typedef struct node {
     struct node *next;  
     int g;
     int h;
-    int f;    
-    struct position *pos;
+    int f;      
+    struct point *point;
 } node;
 
-typedef struct position {
+typedef struct point {
     int x, y, weight;
-} position;
+} point;
 
 
 /**
