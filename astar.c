@@ -11,7 +11,7 @@ node *lowest_f() {
     node *current = open_list;
     node *lowest_f = current;
     while (current != NULL) {
-        if (current->f < lowest_f->f) {
+        if ((current->g + current->h + current->point->weight) < (lowest_f->g+lowest_f->h+lowest_f->point->weight)) {
             lowest_f = current;
         }
         current = current->next;
@@ -61,15 +61,6 @@ int calc_g(node current, node neighbor) {
 }
 
 /**
- * Atualiza o valor de F para o nó.
- * @param n - o nó para atualziar o valor
- * de F.
- */
-void update_f(node *n) {
-    n->f = n->g + n->h + n->point->weight;
-}
-
-/**
  * Atualiza os parâmetros (g,f,h, parent) do nó vizinho ao nó atual.
  * @param current - o nó atual.
  * @param neighbor - o nó vizinho para atualizar os parâmetros.
@@ -83,12 +74,15 @@ void update_params(node *current, node *neighbor, node end_point) {
     }
 
     neighbor->h = heuristic(neighbor, &end_point);
-
-    update_f(neighbor);
 }
 
+/**
+ * Envia um ponto pela serial.
+ * O ponto será mostrado no formato: (x, y).
+ * @param n o nó contendo as informaçes de x e y.
+ */
 void print_point(node *n) {
-    putsUSART("( ");
+    putsUSART("(");
     char bufx[2];
     itoa(bufx, n->point->x, 10);
     putsUSART(bufx);
@@ -98,11 +92,12 @@ void print_point(node *n) {
     itoa(bufy, n->point->y, 10);
 
     putsUSART(bufy);
-    putsUSART(") <- ");
+    putsUSART(") ");
 }
 
 /**
- * Mostra o grid marcado com 'X' no caminho pecorrido.
+ * Mostra o grid com o caminho que o algoritmo encontrou
+ * marcado com 'X'.
  * @param linhas - o  núemro de linhas do grid.
  * @param colunas - o númeor de colunas do grid.
  * @param grid - o grid pecorrido.
@@ -112,22 +107,22 @@ void show_map_result(node grid[LINHAS][COLUNAS]) {
         for (int b = 0; b < COLUNAS; b++) {  
             int w = grid[a][b].point->weight;
                                            
-            if (grid[a][b].f == -2) {
-                putsUSART("X     ");
+            if (grid[a][b].g == -2) {
+                putsUSART("X    ");
             } else {               
                 char buf[5];                      
                 utoa(buf, w, 10);              
                 putsUSART(buf);  
                 if(w < 9){
-                     putsUSART("     ");                            
+                     putsUSART("    ");
                 } else if (w < 99) {
-                    putsUSART("   ");  
+                    putsUSART("   ");
                 } else {
                     putsUSART("  ");  
                 }
             }
         }
-        putcUSART('\r');
+        putsUSART("\n\r");
     }
 }
 
@@ -139,25 +134,24 @@ void show_map_result(node grid[LINHAS][COLUNAS]) {
  * @param grid - o grid pecorrido.
  */
 void show_result(node *n, node grid[LINHAS][COLUNAS]) {
-    putsUSART("Caminho pecorrido:\r"); 
+   // putsUSART("Caminho pecorrido:\n\r"); 
     
-    grid[n->point->x][n->point->y].f = -2;
+    grid[n->point->x][n->point->y].g = -2;
     if (n->parent != NULL) {
-        do {
-            print_point(n);
-            grid[n->parent->point->x][n->parent->point->y].f = -2;
+        do {           
+            grid[n->parent->point->x][n->parent->point->y].g = -2;
             n = n->parent;
         } while (n->parent != NULL);
-    }
-    putcUSART('\r');
+    }   
 
     show_map_result(grid);
 }
 
 /**
- * Verifica se o nó é uma parede.
+ * Verifica se o nó é intransponível. 
+ * U nó é instransponível quando seu valor é 255.
  * @param o nó para ser verificado
- * @return 1 se o nó for uma barreira, 0 caso contrário.
+ * @return 1 se o nó for intransponível, 0 caso contrário.
  */
 bit is_wall(node *n) {
     if (n->point->weight == 255) {
@@ -167,7 +161,7 @@ bit is_wall(node *n) {
 }
 
 /**
- * Busca um caminho do ponto de start até o ponto end no grid.
+ * Busca um caminho do ponto de partida até o ponto de chegada no grid.
  * @param start_node - ponto de partida.
  * @param end_point - ponto de chegada.
  * @param linhas - número de linhas do grid.
@@ -182,10 +176,10 @@ void find_path(node *start_node, node end_point, node grid[LINHAS][COLUNAS]) {
         if (is_finish(current, &end_point)) {
             putsUSART("Ponto de partida: ");
             print_point(start_node);   
-            putcUSART('\r');
+            putsUSART("\n\r");
             putsUSART("Ponto de chegada: ");
             print_point(&end_point);           
-            putcUSART('\r');
+            putsUSART("\n\r");
             show_result(current, grid);
             return;
         }
@@ -194,7 +188,7 @@ void find_path(node *start_node, node end_point, node grid[LINHAS][COLUNAS]) {
         insert_node(&close_list, current);
 
         for (int x = current->point->x - 1; x <= current->point->x + 1;
-             x++) {
+             x++) {            
             if (x <= -1 || x >= LINHAS) {
                 continue;
             }
@@ -227,14 +221,6 @@ void find_path(node *start_node, node end_point, node grid[LINHAS][COLUNAS]) {
             }
         }
     }
-    putsUSART("Sem caminho!\r");
+    putsUSART("Sem caminho!\n\r");
     show_map_result(grid);    
-}
-
-/**
- * Limpa as listas 
- */
-void clean_up() {
-    open_list = NULL;
-    close_list = NULL;
 }

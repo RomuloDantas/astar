@@ -7,8 +7,8 @@
 
 #include "list.h"
 
-#define LINHAS 11
-#define COLUNAS 11
+#define LINHAS 13
+#define COLUNAS 12
 
 /**
  * busca um caminho do ponto de start até o ponto end na grid.
@@ -49,10 +49,5 @@ int heuristic(node *n, node *finish);
  * @param end_node - o nó final usado nos cálculos.
  */
 void update_params(node *current, node *neighbor, node end_node);
-
-/**
- * Clean up the open list and the close list
- */
-void clean_up();
 
 #endif //ASTAR_ASTAR_H
