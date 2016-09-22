@@ -2,7 +2,7 @@
 
 Implementação do algoritmo para busca de caminhos, A*(A-estrela), para a plataforma PIC.
 
-## Descrição ## 
+## Descrição ##
 
 Implementação do algoritmo A* para o PIC18F4550.
 Esta implementação utiliza a heurística de Manhattan para buscar um caminho em mapas de tamanho 13X12.
@@ -40,17 +40,24 @@ Os resultado da computação do algoritmo é colocado na serial (RX) do PIC com 
 #### Modo de uso  ####
 
 1 - Compilar o projeto usando MPLAB X + XC8.
+
 2 - Gravar no PIC18F4550.
+
 3 - Conectar o RX da serial (Baudrate 9600) do PIC a um terminal serial para que a saída seja visualizada.
 
 ### Arquivos ###
-path_finder.c 
-   Arquivo que contém a função main e que inicializa as  estruturas utilizadas pelo A*.
-astar.c
-   Arquivo que contém as funções que realizam as ações utilizadas pelo algoritmo A*, assim como a própria implementação da função principal do algoritmo.
+
+path_finder.c
+ - Arquivo que contém a função main e que inicializa as  estruturas utilizadas pelo A*.
+
+astar.c 
+ - Arquivo que contém as funções que realizam as ações utilizadas pelo algoritmo A*, assim como a própria implementação da função principal do algoritmo.
+
 astar.h
-   Arquivo de cabeçalho para as funções que realizam as ações utilizadas pelo algoritmo A*, assim como a própria implementação da função principal do algoritmo.
+ - Arquivo de cabeçalho para as funções que realizam as ações utilizadas pelo algoritmo A*, assim como a própria implementação da função principal do algoritmo.
+
 list.c
-   Arquivo que contém as funções que realizam as ações nas listas (open_list e close_list) utlizadas pelo algoritmo A*.
+ - Arquivo que contém as funções que realizam as ações nas listas (open_list e close_list) utlizadas pelo algoritmo A*.
+
 list.h
-   Arquivo de cabeçalho das funções que realizam as ações nas listas (open_list e close_list) utlizadas pelo algoritmo A*.
+ - Arquivo de cabeçalho das funções que realizam as ações nas listas (open_list e close_list) utlizadas pelo algoritmo A*.
