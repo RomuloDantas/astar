@@ -1,5 +1,52 @@
-#include <xc.h>
+ /**********************************************************************
+ *     Copyright (c) 2016 Romulo Dantas, All Rights Reserved.
+ *
+ *     This program is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation; either version 2 of
+ *     the License, or (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program; if not, see <http://www.gnu.org/licenses/>.
+ *
+ ********************************************************************/
 
+/*********************************************************************
+ *                      Visão Geral
+ * 
+ * Implementação do algoritmo A* (A-estrela) para a plataforma PIC, 
+ * especificamente para o PIC18F4550.
+ * Esta implementação do algoritmo A* utiliza a heurística de Manhattan para 
+ * buscar o caminho em um mapa alocado na memória ROM do PIC. 
+ * 
+ * A documentação deste projeto basea-se na documentação feita nos drivers do 
+ * kernel Linux.
+ * 
+ * Version:       1.0 - Mapa alocado na ROM. 
+ * Author(s):     Romulo Dantas <romulocicero@gmail.com>
+ *                David Sanford <dsanfordseu@gmail.com>
+ * Created at:    Fri Aug 26 13:38:52 2016 -0300
+ * Repository:    https://github.com/RomuloDantas/astar.git
+ * 
+ **********************************************************************/ 
+
+/*********************************************************************
+ *
+ * Filename:      path_finder.c
+ * Version:       1.0
+ * Description:   Arquivo que contém a função main e que inicializa as 
+ *                estruturas utilizadas pelo A*.
+ * Author:        Romulo Dantas <romulocicero@gmail.com>
+ *                David Sanford <dsanfordseu@gmail.com>
+ *
+ *  ********************************************************************/
+
+#include <xc.h>
 #include <math.h>
 #include <plib/usart.h>
 

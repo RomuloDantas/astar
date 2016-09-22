@@ -1,3 +1,15 @@
+/*********************************************************************
+ *
+ * Filename:      astar.h
+ * Version:       1.0
+ * Description:   Cabeçalho para as funções que realizam as ações utilizadas 
+ *                pelo algoritmo A*, assim como a própria implementação da 
+ *                função principal do algoritmo.
+ * 
+ * Author(s):     Romulo Dantas <romulocicero@gmail.com>
+ *                David Sanford <dsanfordseu@gmail.com>
+ *
+ ********************************************************************/
 #ifndef ASTAR_ASTAR_H
 #define ASTAR_ASTAR_H
 

@@ -1,3 +1,14 @@
+/*********************************************************************
+ *
+ * Filename:      list.c
+ * Version:       1.0
+ * Description:   Funções que realizam as ações nas listas (open_list e 
+ *                close_list) utlizadas pelo algoritmo A*.
+ * 
+ * Author(s):     Romulo Dantas <romulocicero@gmail.com>
+ *                David Sanford <dsanfordseu@gmail.com>
+ *
+ ********************************************************************/
 #include <usart.h>
 
 #include "list.h"

@@ -1,3 +1,14 @@
+/*********************************************************************
+ *
+ * Filename:      list.h
+ * Version:       1.0
+ * Description:   Cabeçalho das funções que realizam as ações nas listas 
+ *                (open_list e close_list) utlizadas pelo algoritmo A*.
+ * 
+ * Author(s):     Romulo Dantas <romulocicero@gmail.com>
+ *                David Sanford <dsanfordseu@gmail.com>
+ * 
+ ********************************************************************/
 #ifndef ASTAR_LIST_H
 #define ASTAR_LIST_H
 

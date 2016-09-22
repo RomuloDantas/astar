@@ -1,3 +1,15 @@
+/*********************************************************************
+ *
+ * Filename:      astar.c
+ * Version:       1.0
+ * Description:   Funções que realizam as ações utilizadas pelo algoritmo A*, 
+ *                assim como a pŕopria implementação da função principal do
+ *                algoritmo.
+ * 
+ * Author(s):     Romulo Dantas <romulocicero@gmail.com>
+ *                David Sanford <dsanfordseu@gmail.com>
+ *
+ ********************************************************************/
 #include "astar.h"
 
 struct node *open_list = NULL;
