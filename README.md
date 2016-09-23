@@ -61,3 +61,16 @@ list.c
 
 list.h
  - Arquivo de cabeçalho das funções que realizam as ações nas listas (open_list e close_list) utlizadas pelo algoritmo A*.
+
+## Próximos passos ##
+
+#### Otimização de energia ####
+
+- Usar serial com mapa 10x10
+- Aprender a medir a energia
+- Limpar o código no varejo
+- Heap de fibonacci
+- Usar uma variável para o g e h
+- Colocar uma flag na close list
+
+
