@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 #include "list.h"
 #include "astar.h"
@@ -154,7 +155,7 @@ void read_grid(FILE *f, node grid[LINE][COLUMN]) {
  * pesos inicializados a partir de um arquivo.
  */
 void map_pathfinder_file() {
-    FILE *f = fopen("/home/lds/semb/astar/map.txt", "r");
+    FILE *f = fopen("/Users/sanf0rd/Documents/dev/astar/map.txt", "r");
     node grid[LINE][COLUMN];
     read_grid(f, grid);
 
@@ -165,7 +166,9 @@ void map_pathfinder_file() {
 
     node end_node = grid[LINE - 1][COLUMN - 1];
 
-    find_path(start_node, end_node, LINE, COLUMN, grid);
+    while(1) {
+        find_path(start_node, end_node, LINE, COLUMN, grid);
+    }
 }
 
 
@@ -225,8 +228,12 @@ void map_pathfinder() {
 
     node end_node = grid[LINE - 1][COLUMN - 1];
 
+    clock_t start = clock();
     find_path(start_node, end_node, LINE, COLUMN, grid);
+    clock_t end = clock();
 
+    float seconds = (float) (end - start) / CLOCKS_PER_SEC;
+    printf("\n\n%.16f", seconds);
 
 }
 
