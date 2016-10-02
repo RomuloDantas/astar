@@ -12,6 +12,7 @@ typedef struct node {
     int h;
     int f;
     int weight;
+    unsigned char close;
 } node;
 
 /**
