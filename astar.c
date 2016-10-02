@@ -77,7 +77,7 @@ void update_f(node *n) {
  * @param neighbor - o nó vizinho para atualizar os parâmetros.
  * @param end_node - o nó final usado nos cálculos.
  */
-void update_params(node *current, node *neighbor, node end_point) {
+void inline update_params(node *current, node *neighbor, node end_point) {
     int new_g = calc_g(*current, *neighbor);
     if (new_g < neighbor->g || neighbor->g == -1) {
         neighbor->g = new_g;
@@ -140,7 +140,7 @@ void show_result(node *n, int linhas, int colunas, node grid[linhas][colunas]) {
  * @param o nó para ser verificado
  * @return 1 se o nó for uma barreira, 0 caso contrário.
  */
-int is_wall(node *n) {
+int inline is_wall(node *n) {
     if (n->weight == 255) {
         return 1;
     }

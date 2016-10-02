@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include <time.h>
 
 #include "list.h"
 #include "astar.h"
@@ -87,6 +85,10 @@ void print_help() {
     printf("0 - Realiza todos os testes \n1 - Map \n2 - Teste vertical \n3 - Teste horizontal \n4 - Teste diagonal \n5 - Teste com barreira\n6 - Teste sem caminho \n7 - Map from file \n");
 }
 
+int inline pow10(int a){
+
+    return  a*a*a*a*a*a*a*a*a*a;
+}
 /**
  * Lê um grid de uma arquivo.
  * @param f - o arquivo para ler o grid.
@@ -116,7 +118,7 @@ void read_grid(FILE *f, node grid[LINE][COLUMN]) {
             } else {
                 currentWeight = 100 * currWeightAux[0] + 10 * currWeightAux[1] + currWeightAux[2];
                 if (countWeightAux < 3 && countWeightAux > 0) {
-                    currentWeight = currentWeight / (int) pow(10, (3 - countWeightAux));
+                    currentWeight = currentWeight / pow10(3 - countWeightAux);
                 }
                 if (countWeightAux != 0) {
                     grid[i][j] = init_node(i, j, currentWeight);
@@ -132,7 +134,7 @@ void read_grid(FILE *f, node grid[LINE][COLUMN]) {
             line++;
             currentWeight = 100 * currWeightAux[0] + 10 * currWeightAux[1] + currWeightAux[2];
             if (countWeightAux < 3 && countWeightAux > 0) {
-                currentWeight = currentWeight / (int) pow(10, (3 - countWeightAux));
+                currentWeight = currentWeight / pow10(3 - countWeightAux);
             }
             if (countWeightAux != 0) {
                 grid[i][j] = init_node(i, j, currentWeight);
@@ -166,9 +168,7 @@ void map_pathfinder_file() {
 
     node end_node = grid[LINE - 1][COLUMN - 1];
 
-    while(1) {
-        find_path(start_node, end_node, LINE, COLUMN, grid);
-    }
+    find_path(start_node, end_node, LINE, COLUMN, grid);
 }
 
 
@@ -228,13 +228,7 @@ void map_pathfinder() {
 
     node end_node = grid[LINE - 1][COLUMN - 1];
 
-    clock_t start = clock();
     find_path(start_node, end_node, LINE, COLUMN, grid);
-    clock_t end = clock();
-
-    float seconds = (float) (end - start) / CLOCKS_PER_SEC;
-    printf("\n\n%.16f", seconds);
-
 }
 
 /**
