@@ -44,7 +44,7 @@ void inline insert_node(node **list, node *n) {
  * @param list - lista de onde o nó será removido.
  * @param n - o nó que será removido.
  */
-void remove_node(node **list, node *n) {
+void inline remove_node(node **list, node *n) {
     if (*list != NULL) {
         //lista vazia
         if ((*list)->next == NULL) {
@@ -91,25 +91,4 @@ int contains_node(node **list, node *n) {
 
 
     return 0;
-}
-
-/**
- * Imprime uma lista.
- * @param list a lista a ser impressa.
- */
-void print_list(node *list) {
-    if (list == NULL) {
-        printf("Empty list\n");
-        return;
-    }
-
-    node *current = list;
-    do {
-        printf("(%d, %d) - ", current->x, current->y);
-        current = current->next;
-    } while (current != NULL);
-
-    printf("\n");
-
-
 }
