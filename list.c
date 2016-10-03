@@ -29,15 +29,12 @@ node init_node(int x, int y, int weight) {
  * @param list - lista onde o nó será inserido.
  * @param n - o nó que será inserido.
  */
-void insert_node(node **list, node *n) {
+void inline insert_node(node **list, node *n) {
     if (*list == NULL) {
         *list = n;
     } else {
-        node *current = *list;
-        while (current->next != NULL) {
-            current = current->next;
-        }
-        current->next = n;
+        n->next = *list;
+        *list = n;
     }
 
 }
