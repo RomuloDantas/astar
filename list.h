@@ -15,7 +15,7 @@ typedef struct node {
     int g;
     int h;
     int f;
-    int weight;
+    unsigned char weight;
     unsigned char close;
 } node;
 
@@ -27,7 +27,7 @@ typedef struct node {
  * @param weight  - o peso do nó.
  * @return  - o nó criado.
  */
-node init_node(int x, int y, int weight);
+node init_node(int x, int y, unsigned char weight);
 
 /**
  * Insere um nó na lista.

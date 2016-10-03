@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include "list.h"
 
-node *open_list = NULL;
+#define PATH 4
 
+node *open_list = NULL;
 
 /**
  * Recupera o nó com menor f na lista aberta (open list).
@@ -98,7 +99,7 @@ void inline update_params(node *current, node *neighbor, node end_point) {
 void inline show_map_result(int linhas, int colunas, node grid[linhas][colunas]) {
     for (int x = 0; x < linhas; x++) {
         for (int y = 0; y < colunas; y++) {
-            if (grid[x][y].weight == -1) {
+            if (grid[x][y].close == PATH) {
                 printf("%c   ", 'X');
             } else {
                 if (grid[x][y].weight < 9) {
@@ -123,10 +124,10 @@ void inline show_map_result(int linhas, int colunas, node grid[linhas][colunas])
  */
 void inline show_result(node *n, int linhas, int colunas, node grid[linhas][colunas]) {
     printf("Caminho pecorrido:\n(%d, %d) ", n->x, n->y);
-    grid[n->x][n->y].weight = -1;
+    grid[n->x][n->y].close = PATH;
     if (n->parent != NULL) {
         do {
-            grid[n->parent->x][n->parent->y].weight = -1;
+            grid[n->parent->x][n->parent->y].close = PATH;
             n = n->parent;
         } while (n->parent != NULL);
     }

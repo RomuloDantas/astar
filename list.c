@@ -11,7 +11,7 @@
  * @param weight  - o peso do nó.
  * @return  - o nó criado.
  */
-node init_node(int x, int y, int weight) {
+node init_node(int x, int y, unsigned char weight) {
     node n;
     n.next = NULL;
     n.parent = NULL;

@@ -97,7 +97,7 @@ int inline pow10(int a){
  */
 void read_grid(FILE *f, node grid[LINE][COLUMN]) {
     int c, line = 0, column = 0;
-    int currentWeight = 0;
+    unsigned char currentWeight = 0;
     int currWeightAux[3] = {0, 0, 0};
     int countWeightAux = 0;
     int i = 0;
@@ -157,7 +157,7 @@ void read_grid(FILE *f, node grid[LINE][COLUMN]) {
  * pesos inicializados a partir de um arquivo.
  */
 void map_pathfinder_file() {
-    FILE *f = fopen("/Users/sanf0rd/Documents/dev/astar/map.txt", "r");
+    FILE *f = fopen("map.txt", "r");
     node grid[LINE][COLUMN];
     read_grid(f, grid);
 
