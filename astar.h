@@ -11,7 +11,7 @@
  * @param colunas - numero de colunas do grid.
  * @param grid - o grid para ser pecorrido.
  */
-void find_path(node *start_node, node end_point, int linhas, int colunas, node grid[linhas][colunas]);
+void find_path(node *start_node, node end_point, unsigned char linhas, unsigned char colunas, node grid[linhas][colunas]);
 
 /**
  * Recupera o nó com menor f na lista aberta (open list).
