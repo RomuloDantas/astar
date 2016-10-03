@@ -3,7 +3,7 @@
 #include "list.h"
 
 node *open_list = NULL;
-node *close_list = NULL;
+
 
 /**
  * Recupera o nó com menor f na lista aberta (open list).
@@ -170,7 +170,7 @@ extern inline void find_path(node *start_node, node end_point, int linhas, int c
         }
 
         remove_node(&open_list, current);
-        insert_node(&close_list, current);
+        current->close = 1;
 
         for (int x = current->x - 1; x <= current->x + 1;
              x++) {
@@ -193,7 +193,7 @@ extern inline void find_path(node *start_node, node end_point, int linhas, int c
                     continue;
                 }
 
-                if (contains_node(&close_list, neighbor)) {
+                if (neighbor->close == 1) {
                 //Vizinho já analisado.
                     continue;
                 }
@@ -216,7 +216,6 @@ extern inline void find_path(node *start_node, node end_point, int linhas, int c
  */
 extern inline void clean_up() {
     open_list = NULL;
-    close_list = NULL;
 }
 
 

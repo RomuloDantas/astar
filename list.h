@@ -1,6 +1,10 @@
 #ifndef ASTAR_LIST_H
 #define ASTAR_LIST_H
 
+#define X chars[0]
+#define Y chars[1]
+#define WEIGHT chars[2]
+#define CLOSE chars[3]
 /**
  * Estrutura que reprensenta um nó.
  */
@@ -12,6 +16,7 @@ typedef struct node {
     int h;
     int f;
     int weight;
+    unsigned char close;
 } node;
 
 /**
