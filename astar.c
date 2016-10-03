@@ -9,7 +9,7 @@ node *close_list = NULL;
  * Recupera o nó com menor f na lista aberta (open list).
  * @return o nó com menor f.
  */
-node *lowest_f() {
+node inline *lowest_f() {
     node *current = open_list;
     node *lowest_f = current;
     while (current != NULL) {
@@ -27,7 +27,7 @@ node *lowest_f() {
  * @param end_point - o nó objetivo.
  * @return 1 caso o nó seja o objetivo, 0 caso contrário.
  */
-int is_finish(node *n, node *end_point) {
+int inline is_finish(node *n, node *end_point) {
     if (n->x == end_point->x && n->y == end_point->y) {
         return 1;
     }
@@ -40,7 +40,7 @@ int is_finish(node *n, node *end_point) {
  * @param finish - o nó final para o cálculo da heurística.
  * @return o resultado co calculo.
  */
-int heuristic(node *n, node *finish) {
+int inline heuristic(node *n, node *finish) {
     return 10 * (abs(n->x - finish->x) + abs(n->y - finish->y));
 }
 
@@ -50,7 +50,7 @@ int heuristic(node *n, node *finish) {
  * @param neighbor - o vizinho.
  * @return o valor de G entre current e neighbor.
  */
-int calc_g(node current, node neighbor) {
+int inline calc_g(node current, node neighbor) {
 
     int dist = 0;
     if (current.x == neighbor.x || current.y == neighbor.y) {
@@ -67,7 +67,7 @@ int calc_g(node current, node neighbor) {
  * @param n - o nó para atualziar o valor
  * de F.
  */
-void update_f(node *n) {
+void inline update_f(node *n) {
     n->f = n->g + n->h + n->weight;
 }
 
@@ -95,7 +95,7 @@ void inline update_params(node *current, node *neighbor, node end_point) {
  * @param colunas - o númeor de colunas do grid.
  * @param grid - o grid pecorrido.
  */
-void show_map_result(int linhas, int colunas, node grid[linhas][colunas]) {
+void inline show_map_result(int linhas, int colunas, node grid[linhas][colunas]) {
     for (int x = 0; x < linhas; x++) {
         for (int y = 0; y < colunas; y++) {
             if (grid[x][y].weight == -1) {
@@ -121,7 +121,7 @@ void show_map_result(int linhas, int colunas, node grid[linhas][colunas]) {
  * @param colunas - o númeor de colunas do grid.
  * @param grid - o grid pecorrido.
  */
-void show_result(node *n, int linhas, int colunas, node grid[linhas][colunas]) {
+void inline show_result(node *n, int linhas, int colunas, node grid[linhas][colunas]) {
     printf("Caminho pecorrido:\n(%d, %d) ", n->x, n->y);
     grid[n->x][n->y].weight = -1;
     if (n->parent != NULL) {
@@ -155,7 +155,7 @@ int inline is_wall(node *n) {
  * @param colunas - numero de colunas do grid.
  * @param grid - o grid para ser pecorrido.
  */
-void find_path(node *start_node, node end_point, int linhas, int colunas, node grid[linhas][colunas]) {
+extern inline void find_path(node *start_node, node end_point, int linhas, int colunas, node grid[linhas][colunas]) {
 
 
     insert_node(&open_list, start_node);
@@ -189,12 +189,12 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
 
                 node *neighbor = &(grid[x][y]);
 
-                if (contains_node(&close_list, neighbor)) {
-                //Vizinho já analisado.
+                if (is_wall(neighbor)) {
                     continue;
                 }
 
-                if (is_wall(neighbor)) {
+                if (contains_node(&close_list, neighbor)) {
+                //Vizinho já analisado.
                     continue;
                 }
 
@@ -214,7 +214,7 @@ void find_path(node *start_node, node end_point, int linhas, int colunas, node g
 /**
  * Limpa as listas 
  */
-void clean_up() {
+extern inline void clean_up() {
     open_list = NULL;
     close_list = NULL;
 }

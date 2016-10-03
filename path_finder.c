@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "list.h"
 #include "astar.h"
-
 
 #define LINE 55
 #define COLUMN  55
@@ -228,7 +228,13 @@ void map_pathfinder() {
 
     node end_node = grid[LINE - 1][COLUMN - 1];
 
+    clock_t start = clock();
     find_path(start_node, end_node, LINE, COLUMN, grid);
+    clock_t end = clock();
+
+    float seconds = (float) (end - start) / CLOCKS_PER_SEC;
+    printf("\n\n%.16f", seconds);
+
 }
 
 /**
